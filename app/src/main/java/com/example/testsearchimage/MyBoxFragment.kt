@@ -5,8 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testsearchimage.databinding.ActivityMainBinding
+import com.example.testsearchimage.databinding.FragmentMyBoxBinding
 
 class MyBoxFragment : Fragment() {
+
+    private val binding by lazy { FragmentMyBoxBinding.inflate(layoutInflater) }
+    //임시 데이터
+    private var datalist = mutableListOf<MyImage>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +27,17 @@ class MyBoxFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_box, container, false)
+        datalist.add(MyImage("title3", "2020", "url", false))
+        val adapter = SearchAdapter(datalist)
+        binding.myBoxRecyclerView.adapter = adapter
+        binding.myBoxRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter.itemClick = object : SearchAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+
+            }
+        }
+
+        return binding.root
     }
 }
