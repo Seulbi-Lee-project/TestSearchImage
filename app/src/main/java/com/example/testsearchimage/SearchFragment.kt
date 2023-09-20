@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toast.makeText
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testsearchimage.databinding.ActivityMainBinding
 import com.example.testsearchimage.databinding.FragmentSearchBinding
@@ -28,9 +29,11 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         datalist.add(MyImage("title2", "2020", "url", false))
+        datalist.add(MyImage("title3", "2020", "url", false))
+        datalist.add(MyImage("title4", "2020", "url", false))
         val adapter = SearchAdapter(datalist)
         binding.searchRecyclerView.adapter = adapter
-        binding.searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         adapter.itemClick = object : SearchAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {

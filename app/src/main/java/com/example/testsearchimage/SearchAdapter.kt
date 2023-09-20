@@ -16,6 +16,7 @@ class SearchAdapter(val mItems: MutableList<MyImage>) : RecyclerView.Adapter<Sea
 
     inner class Holder(val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.searchTitle
+        val image = binding.searchImage
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -29,6 +30,7 @@ class SearchAdapter(val mItems: MutableList<MyImage>) : RecyclerView.Adapter<Sea
             itemClick?.onClick(it, position)
         }
         holder.title.text = mItems[position].title
+        holder.image.setImageResource(R.drawable.ic_launcher_background)
     }
 
     override fun getItemId(position: Int): Long {
