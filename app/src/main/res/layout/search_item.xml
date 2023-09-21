@@ -6,8 +6,11 @@
     <ImageView
         android:id="@+id/search_image"
         android:src="@drawable/ic_launcher_background"
+        android:scaleType="fitCenter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:maxWidth="500dp"
+        android:maxHeight="500dp"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
