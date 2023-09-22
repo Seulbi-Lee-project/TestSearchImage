@@ -16,7 +16,7 @@ import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 
-class SearchAdapter(val dataList : List<Document>) : RecyclerView.Adapter<SearchAdapter.Holder>() {
+class SearchAdapter(val dataList : MutableList<ImageModel>) : RecyclerView.Adapter<SearchAdapter.Holder>() {
 
 
 
@@ -29,6 +29,7 @@ class SearchAdapter(val dataList : List<Document>) : RecyclerView.Adapter<Search
     inner class Holder(val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.searchTitle
         val image = binding.searchImage
+        val isLike = binding.searchIsLike
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -42,11 +43,20 @@ class SearchAdapter(val dataList : List<Document>) : RecyclerView.Adapter<Search
 
         holder.itemView.setOnClickListener {
             itemClick?.onClick(it, position)
+            if(dataList[position].isLike){
+                holder.isLike.setImageResource(R.drawable.ic_heart)
+                dataList[position].isLike = false
+            }else{
+                holder.isLike.setImageResource(R.drawable.ic_heart_fill)
+                dataList[position].isLike = true
+
+            }
+            notifyItemChanged(position)
         }
-        holder.title.text = dataList[position].datetime
+        holder.title.text = dataList[position].dataTime
         val mThread = Thread {
             try {
-                val url: URL = URL(dataList[position].imageUrl)
+                val url: URL = URL(dataList[position].url)
                 val conn = url.openConnection()
                 conn.doInput
                 conn.connect()

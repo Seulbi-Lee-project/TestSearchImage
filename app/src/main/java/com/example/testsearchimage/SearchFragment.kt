@@ -19,7 +19,8 @@ import retrofit2.Response
 class SearchFragment : Fragment() {
 
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
-    private var datalist = mutableListOf<MyImage>()
+    private var imageItems: ArrayList<ImageModel> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,23 +33,34 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding.searchButton.setOnClickListener {
-            retrofitWork()
+            val query = binding.searchEdit.text.toString()
+            retrofitWork(query)
         }
 
         return binding.root
     }
 
-    private fun retrofitWork() {
+    private fun retrofitWork(query:String) {
         val service = RetrofitApi.kakaoService
-        service.getKakaoImage(getString(R.string.api_key), "포도").enqueue(object : retrofit2.Callback<KakaoResponse> {
+        service.getKakaoImage(getString(R.string.api_key), query).enqueue(object : retrofit2.Callback<KakaoResponse> {
             override fun onResponse(call: Call<KakaoResponse>, response: Response<KakaoResponse>) {
                 if(response.isSuccessful){
-                    //Log.d("TAG", response.body().toString())
-                    val result = response.body()?.documents
-                    val adapter = result?.let { SearchAdapter(it) }
+                    response.body()?.meta?.let { meta ->
+                        if (meta.totalCount > 0) {
+                            response.body()!!.documents.forEach { document ->
+                                val title = document.displaySitename
+                                val datetime = document.datetime.slice(0..9)
+                                val url = document.thumbnailUrl
+                                imageItems.add(ImageModel(title, datetime, url, false))
+                            }
+                        }
+                    }
+                    var adapter: SearchAdapter = SearchAdapter(imageItems)
                     binding.searchRecyclerView.adapter = adapter
                     binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+                    adapter.notifyDataSetChanged()
                 }
             }
 
