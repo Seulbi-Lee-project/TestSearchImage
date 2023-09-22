@@ -9,7 +9,8 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tab"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,11 +25,13 @@
         app:layout_constraintStart_toStartOf="parent">
         <Button
             android:id="@+id/search_btn"
+            android:layout_weight="1"
             android:text="@string/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/my_box_btn"
+            android:layout_weight="1"
             android:text="@string/my_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
