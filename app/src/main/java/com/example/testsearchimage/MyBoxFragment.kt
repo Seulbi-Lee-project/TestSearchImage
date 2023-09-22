@@ -14,7 +14,6 @@ import com.example.testsearchimage.databinding.FragmentMyBoxBinding
 class MyBoxFragment : Fragment() {
 
     private val binding by lazy { FragmentMyBoxBinding.inflate(layoutInflater) }
-    //임시 데이터
     private var datalist = mutableListOf<ImageModel>()
     private lateinit var mContext: Context
 

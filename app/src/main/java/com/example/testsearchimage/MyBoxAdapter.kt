@@ -35,18 +35,14 @@ class MyBoxAdapter (val dataList: MutableList<ImageModel>, private val mContext:
     override fun onBindViewHolder(holder: MyBoxAdapter.Holder, position: Int) {
         lateinit var bitmap: Bitmap
 
+        holder.isLike.setImageResource(R.drawable.ic_heart_fill)
+
         holder.itemView.setOnClickListener {
             itemClick?.onClick(it, position)
-            if(dataList[position].isLike){
-                holder.isLike.setImageResource(R.drawable.ic_heart)
-                dataList[position].isLike = false
-            }else{
-                holder.isLike.setImageResource(R.drawable.ic_heart_fill)
-                dataList[position].isLike = true
-                (mContext as MainActivity).addLikedItem(dataList[position])
-            }
-            notifyItemChanged(position)
+            dataList.removeAt(position)
+            notifyDataSetChanged()
         }
+
         holder.title.text = dataList[position].dataTime
         val mThread = Thread {
             try {
