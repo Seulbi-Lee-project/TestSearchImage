@@ -1,5 +1,6 @@
 package com.example.testsearchimage
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,7 +21,12 @@ class SearchFragment : Fragment() {
 
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private var imageItems: ArrayList<ImageModel> = ArrayList()
+    private lateinit var mContext:Context
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +63,7 @@ class SearchFragment : Fragment() {
                             }
                         }
                     }
-                    var adapter: SearchAdapter = SearchAdapter(imageItems)
+                    var adapter: SearchAdapter = SearchAdapter(imageItems, mContext)
                     binding.searchRecyclerView.adapter = adapter
                     binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
                     adapter.notifyDataSetChanged()

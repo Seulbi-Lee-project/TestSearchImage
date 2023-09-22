@@ -1,5 +1,6 @@
 package com.example.testsearchimage
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -16,9 +17,7 @@ import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 
-class SearchAdapter(val dataList : MutableList<ImageModel>) : RecyclerView.Adapter<SearchAdapter.Holder>() {
-
-
+class SearchAdapter(val dataList : MutableList<ImageModel>, private val mContext: Context) : RecyclerView.Adapter<SearchAdapter.Holder>() {
 
     interface ItemClick {
         fun onClick(view : View, position : Int)
@@ -49,7 +48,7 @@ class SearchAdapter(val dataList : MutableList<ImageModel>) : RecyclerView.Adapt
             }else{
                 holder.isLike.setImageResource(R.drawable.ic_heart_fill)
                 dataList[position].isLike = true
-
+                (mContext as MainActivity).addLikedItem(dataList[position])
             }
             notifyItemChanged(position)
         }

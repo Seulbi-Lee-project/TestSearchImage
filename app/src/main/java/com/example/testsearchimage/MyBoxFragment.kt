@@ -1,5 +1,6 @@
 package com.example.testsearchimage
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +15,13 @@ class MyBoxFragment : Fragment() {
 
     private val binding by lazy { FragmentMyBoxBinding.inflate(layoutInflater) }
     //임시 데이터
-    private var datalist = mutableListOf<MyImage>()
+    private var datalist = mutableListOf<ImageModel>()
+    private lateinit var mContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +35,11 @@ class MyBoxFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        datalist.add(MyImage("title3", "2020", "url", false))
-//        val adapter = SearchAdapter(datalist)
-//        binding.myBoxRecyclerView.adapter = adapter
-//        binding.myBoxRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        val mainActivity = activity as MainActivity
+        datalist = mainActivity.likedItems
+        val adapter = MyBoxAdapter(datalist, mContext)
+        binding.myBoxRecyclerView.adapter = adapter
+        binding.myBoxRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         return binding.root
     }
 }
